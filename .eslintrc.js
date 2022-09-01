@@ -59,6 +59,10 @@ module.exports = {
     'vue/script-setup-uses-vars': ['off'],
     //can config  to 2 if need more then required
     '@typescript-eslint/no-unused-vars': [0],
-    'no-param-reassign': ['off']
+    'no-param-reassign': ['off'],
+    'space-before-function-paren': 'off'
   }
 }
+
+
+

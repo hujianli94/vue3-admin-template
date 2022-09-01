@@ -43,6 +43,20 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/todo',
+    component: Layout,
+    redirect: '/todo/index',
+    hidden: false,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/todo/index.vue'),
+        name: 'Profile',
+        meta: { title: '任务列表', icon: 'nested', noCache: true }
+      }
+    ]
+  },
+  {
     path: '/external-link',
     component: Layout,
     children: [

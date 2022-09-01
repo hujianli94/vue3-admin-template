@@ -1,5 +1,5 @@
 const setting = {
-  title: 'Vue3 Admin Template',
+  title: '熙熙运维平台 ',
   /**
    * @type {boolean} true | false
    * @description Whether show the logo in sidebar
