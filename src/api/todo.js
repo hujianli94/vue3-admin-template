@@ -11,8 +11,6 @@ export function submit(data) {
   })
 }
 
-
-
 export function pullData(params) {
   return request({
     url: '/api/todo',

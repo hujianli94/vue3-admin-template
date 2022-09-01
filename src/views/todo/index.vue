@@ -4,7 +4,7 @@
       <el-col :span="24" :xs="24">
         <el-card>
           <el-button type="primary" @click="createTask">创建任务</el-button>
-          <el-tabs v-model="activeTab">
+          <el-tabs v-model="activeTab" @tab-click="swithTab">
             <el-tab-pane label="当前任务" name="current"></el-tab-pane>
             <el-tab-pane label="未完成" name="unfinish"></el-tab-pane>
             <el-tab-pane label="已完成" name="finished"></el-tab-pane>
@@ -48,7 +48,7 @@
               <el-form-item label="任务名称" prop="name" :label-width="formLabelWidth">
                 <el-input v-model="ruleForm.name" autocomplete="off" />
               </el-form-item>
-              <el-form-item label="任务描述" :label-width="formLabelWidth">
+              <el-form-item label="任务描述" prop="desc" :label-width="formLabelWidth">
                 <el-input v-model="ruleForm.desc" autocomplete="off" />
               </el-form-item>
               <el-form-item label="开始时间">
@@ -102,6 +102,7 @@ import { ElDrawer, ElMessageBox, ElMessage } from 'element-plus'
 import { validateHan } from '@/utils/validate'
 
 export default {
+  name: 'Todo',
   setup() {
     const title = ref('')
     const activeTab = ref('current')
@@ -133,9 +134,9 @@ export default {
     })
 
     const rules = reactive({
-      name: [{ required: true, message: '任务名称不可为空', trigger: 'blur' }, { validator: validateHan }],
-      desc: [{ required: true, message: '任务描述不可为空', trigger: 'blur' }, { validator: validateHan }],
-      assign: [{ required: true, message: '执行人不可为空', trigger: 'blur' }]
+      name: [{ required: true, message: '任务名称不能为空', trigger: 'blur' }, { validator: validateHan }],
+      desc: [{ required: true, message: '任务描述不能为空', trigger: 'blur' }, { validator: validateHan }],
+      assign: [{ required: true, message: '执行人不能为空', trigger: 'blur' }]
     })
 
     const createTask = () => {
@@ -155,8 +156,10 @@ export default {
       submit(ruleForm.values).then((response) => {
         console.log(ruleForm.values)
         if (response.code === 0) {
+          getTaskList(activeTab.value)
           ElMessage.success('保存成功！')
           loading.value = false
+          dialog.value = false
         }
       })
     }
@@ -196,6 +199,14 @@ export default {
       })
     }
 
+    const swithTab = (tab, event) => {
+      getTaskList(activeTab.value)
+    }
+
+    onMounted(() => {
+      getTaskList(activeTab.value)
+    })
+
     return {
       title,
       loading,
@@ -210,7 +221,8 @@ export default {
       onSubmit,
       handleClose,
       cancelForm,
-      getTaskList
+      getTaskList,
+      swithTab
     }
   }
 }

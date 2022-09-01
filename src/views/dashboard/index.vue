@@ -15,8 +15,8 @@
     <el-button type="warning" @click="count++">count is: {{ count }}</el-button>
     <el-button type="danger" @click="count++">count is: {{ count }}</el-button>
     <el-button type="info" @click="count++">count is: {{ count }}</el-button>
-    <h1><center>Python 测试运维自动化平台 </center> </h1>
-    </div>
+    <h1><center>Python 测试运维自动化平台</center></h1>
+  </div>
 </template>
 <script setup>
 import { ElMessage } from 'element-plus'
