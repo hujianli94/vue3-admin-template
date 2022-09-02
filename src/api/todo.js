@@ -7,14 +7,17 @@ export function submit(data) {
     method: 'post',
     bfLoading: false,
     isParams: true,
-    isAlertErrorMsg: false
+    isAlertErrorMsg: false,
+    baseURL: import.meta.env.VITE_APP_PROXY_URL
   })
 }
 
 export function pullData(params) {
   return request({
-    url: '/api/todo',
+    url: '/api/todo/list',
     method: 'get',
-    data: params
+    isParams: true,
+    data: params,
+    baseURL: import.meta.env.VITE_APP_PROXY_URL
   })
 }

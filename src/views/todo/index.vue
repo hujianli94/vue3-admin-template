@@ -56,7 +56,8 @@
                   v-model="ruleForm.start_time"
                   align="right"
                   type="date"
-                  value-format="yyyy-MM-dd"
+                  :disabled-date="disabledDate"
+                  format="YYYY-MM-DD"
                   placeholder="选择日期"
                 />
               </el-form-item>
@@ -65,7 +66,8 @@
                   v-model="ruleForm.end_time"
                   align="right"
                   type="date"
-                  value-format="yyyy-MM-dd"
+                  :disabled-date="disabledDate"
+                  format="YYYY-MM-DD"
                   placeholder="选择日期"
                 />
               </el-form-item>
@@ -110,19 +112,19 @@ export default {
     const loading = ref(false)
     const formLabelWidth = '80px'
     let timer
-    // const tableData =  ref([])
+    const tableData =  ref([])
 
-    const tableData = reactive([
-      {
-        // 创建响应式数据
-        name: '测试任务',
-        desc: '任务描述',
-        start_time: '2020-06-21',
-        end_time: '2020-07-01',
-        assign: '张三',
-        status: '进行中'
-      }
-    ])
+    // const tableData = reactive([
+    //   {
+    //     // 创建响应式数据
+    //     name: '测试任务',
+    //     desc: '任务描述',
+    //     start_time: '2020-06-21',
+    //     end_time: '2020-07-01',
+    //     assign: '张三',
+    //     status: '进行中'
+    //   }
+    // ])
 
     const ruleForm = reactive({
       name: '',
@@ -134,7 +136,7 @@ export default {
     })
 
     const rules = reactive({
-      name: [{ required: true, message: '任务名称不能为空', trigger: 'blur' }, { validator: validateHan }],
+      name: [{ required: true, message: '任务名称不能为空', trigger: 'blur' }],
       desc: [{ required: true, message: '任务描述不能为空', trigger: 'blur' }, { validator: validateHan }],
       assign: [{ required: true, message: '执行人不能为空', trigger: 'blur' }]
     })
@@ -153,8 +155,8 @@ export default {
 
     const onSubmit = () => {
       loading.value = true
-      submit(ruleForm.values).then((response) => {
-        console.log(ruleForm.values)
+      submit(ruleForm.value).then((response) => {
+        console.log(ruleForm.value)
         if (response.code === 0) {
           getTaskList(activeTab.value)
           ElMessage.success('保存成功！')
@@ -200,12 +202,19 @@ export default {
     }
 
     const swithTab = (tab, event) => {
+      activeTab.value = tab.paneName
       getTaskList(activeTab.value)
     }
+
+    const disabledDate =(time) => {
+      return time.getTime() < Date.now() - 8.64e7
+    }
+
 
     onMounted(() => {
       getTaskList(activeTab.value)
     })
+
 
     return {
       title,
@@ -216,6 +225,7 @@ export default {
       ruleForm,
       rules,
       formLabelWidth,
+      disabledDate,
       createTask,
       editTask,
       onSubmit,

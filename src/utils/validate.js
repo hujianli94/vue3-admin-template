@@ -352,3 +352,56 @@ export function validateIdNo(rule, value, callback) {
 }
 
 
+// 表单验证不能出现中文
+export function validateChinese(rule, value, callback) {
+  const regNu = /^[a-zA-Z0-9_]{0,}$/;
+  if (!regNu.test(value)) {
+      return callback(new Error('不能出现中文字符!'));
+  } else {
+      callback();
+  }
+}
+
+
+//表单验证填写（长度验证）
+export function validateLength (rule, value, callback) {
+  if (value.length >= 14 || value.length < 2) {
+        return callback(new Error('长度为3位 ~ 14位!'));
+  } else {
+      callback();
+  }
+};
+
+
+//表单中出现空格验证
+export function validateSpace(rule, value, callback) {
+  if (typeof value != 'string') {
+      console.warn('表单验证接收value的类型错误');
+  }
+  if (value.indexOf(" ") == -1) {
+      callback();
+  } else {
+      return callback(new Error('不能包含空格！'));
+  }
+};
+
+
+// 表单中输入中出现特殊字符
+export function validateSpecial(rule, value, callback) {
+  const regEn = /[`~!@#$%^&*()_+<>?:"{},.\/;'[\]]/im;
+  const regCn = /[·！#￥（——）：；“”‘、，|《。》？、【】[\]]/im;
+  if (regEn.test(value) || regCn.test(value)) {
+      return callback(new Error('不能包含特殊字符！'));
+  } else {
+      callback();
+  }
+};
+
+// //表单验证填写（必填项不能为空）
+// export function validateNull(rule, value, callback) {
+//   if (value === "") {
+//      return callback(new Error('必填项不能为空！'));
+//   } else {
+//       callback();
+//   }
+// };
